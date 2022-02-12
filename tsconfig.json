@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "allowSyntheticDefaultImports": true,
+    "noImplicitAny": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "target": "esnext",
+    "allowJs": true,
+    "jsx": "react",
+
+    "lib": ["dom", "esnext"],
+    "strict": true,
+    "sourceMap": true
+  },
+  "files": ["src/index.tsx"],
+  "exclude": ["node_modules"],
+  "baseUrl": "src/",
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "src/"]
+}
