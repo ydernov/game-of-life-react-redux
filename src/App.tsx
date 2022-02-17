@@ -27,7 +27,7 @@ const App: FC = () => {
           <Cell
             alive={i % 2 === 0}
             newBorn={i % 2 === 0 && (i % 7 === 0 || i % 9 === 0)}
-            size={20}
+            size={10}
           />
         ))}
       </div>
