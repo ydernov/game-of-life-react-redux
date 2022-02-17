@@ -1,5 +1,6 @@
 import { Global } from "@emotion/react";
-import React, { FC, useRef } from "react";
+import { FC, useRef } from "react";
+import Cell from "./components/Cell";
 
 const App: FC = () => {
   const ref = useRef<HTMLDivElement>(null);
@@ -20,6 +21,16 @@ const App: FC = () => {
       />
 
       <h1>Hello React!</h1>
+
+      <div style={{ display: "flex", flexWrap: "wrap" }}>
+        {[...Array(1000)].map((_, i) => (
+          <Cell
+            alive={i % 2 === 0}
+            newBorn={i % 2 === 0 && (i % 7 === 0 || i % 9 === 0)}
+            size={10}
+          />
+        ))}
+      </div>
     </div>
   );
 };
