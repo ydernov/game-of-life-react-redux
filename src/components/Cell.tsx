@@ -1,31 +1,32 @@
 import { FC } from "react";
-import { css } from "@emotion/react";
 
 const Cell: FC<{
+  id: string;
   alive: boolean;
   newBorn: boolean;
   size: number;
   top: number;
-  bottom: number;
-}> = ({ alive, newBorn, size, top, bottom }) => {
-  const background = alive ? (newBorn ? "#7F4C7B" : "#AA6578") : "#1C1426";
-  const border = alive ? (newBorn ? "#CD8CC7" : "#F0A4B8") : "#65507F";
+  left: number;
+  onClick?: (id: string) => void;
+}> = ({ id, alive, newBorn, size, top, left, onClick }) => {
+  //const background = alive ? (newBorn ? "#7F4C7B" : "#8D86C9") : "transparent";
+  const background = alive ? (newBorn ? "#4FB477" : "#21A179") : "transparent";
+  //const border = alive ? (newBorn ? "#CD8CC7" : "#F0A4B8") : "#65507F";
+
+  const handleMouse = () => onClick?.(id);
 
   return (
     <div
-      css={css({
+      className="cell"
+      style={{
         width: size,
         height: size,
-        border: "2px solid",
-        position: "absolute",
         top,
-        bottom,
-
-        borderColor: border,
-
+        left,
         background: background,
-      })}
-    ></div>
+      }}
+      onClick={handleMouse}
+    />
   );
 };
 
