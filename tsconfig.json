@@ -6,11 +6,12 @@
     "moduleResolution": "node",
     "target": "esnext",
     "allowJs": true,
-    "jsx": "react",
 
     "lib": ["dom", "esnext"],
     "strict": true,
-    "sourceMap": true
+    "sourceMap": true,
+    "jsx": "react-jsx",
+    "jsxImportSource": "@emotion/react"
   },
   "files": ["src/index.tsx"],
   "exclude": ["node_modules"],
