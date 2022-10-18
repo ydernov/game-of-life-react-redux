@@ -1,20 +1,23 @@
 import { FC, useEffect, useState } from "react";
-import { changeFieldSize } from "../redux/field";
+import { changeUseWorker } from "../redux/appSettings";
+import { changeFieldSize, generateFieldCells } from "../redux/field";
 import { useAppDispatch, useAppSelector } from "../redux/store";
 import BurgerButton from "./BurgerButton";
 
 const AppMenu: FC = () => {
   const [isOpen, isOpenSet] = useState(false);
-  const { availableFieldSize, xCellCount, yCellCount } = useAppSelector(
-    ({
-      appSettings: { availableFieldSize },
-      field: { xCellCount, yCellCount },
-    }) => ({
-      availableFieldSize,
-      xCellCount,
-      yCellCount,
-    })
-  );
+  const { availableFieldSize, xCellCount, yCellCount, useWorker } =
+    useAppSelector(
+      ({
+        appSettings: { availableFieldSize, useWorker },
+        field: { xCellCount, yCellCount },
+      }) => ({
+        availableFieldSize,
+        xCellCount,
+        yCellCount,
+        useWorker,
+      })
+    );
 
   const [localWidth, localWidthSet] = useState(xCellCount.toString());
   const [localHeight, localHeightSet] = useState(yCellCount.toString());
@@ -58,6 +61,10 @@ const AppMenu: FC = () => {
         yCellCount,
       })
     );
+  };
+
+  const handleClickUseWorker = () => {
+    dispatch(changeUseWorker(!useWorker));
   };
 
   return (
@@ -133,6 +140,21 @@ const AppMenu: FC = () => {
             </p>
             <button type="submit">Apply</button>
           </form>
+          <p>
+            <label>
+              Use webworker
+              <input
+                type="checkbox"
+                checked={useWorker}
+                onChange={handleClickUseWorker}
+              />
+            </label>
+          </p>
+          <p>
+            <button onClick={() => dispatch(generateFieldCells())}>
+              create cells
+            </button>
+          </p>
         </>
       ) : null}
     </div>

@@ -5,10 +5,17 @@ import ControlPanel from "./components/ControlPanel";
 import Field from "./components/Field";
 import Stats from "./components/Stats";
 import { changeAvailableSize, newGenerationThunk } from "./redux/appSettings";
-import { changeFieldSize } from "./redux/field";
+import { changeFieldSize, newgen } from "./redux/field";
 import { useAppDispatch, useAppSelector } from "./redux/store";
 
 const baseTimer = 100;
+
+function runGame(cb: () => void) {
+  window.requestAnimationFrame(() => {
+    cb();
+    runGame(cb);
+  });
+}
 
 const App: FC = () => {
   const ref = useRef<HTMLDivElement>(null);
@@ -22,8 +29,8 @@ const App: FC = () => {
     const avWidth = Math.floor((ref.current?.clientWidth || 0) / cellSize);
     const avHeight = Math.floor((ref.current?.clientHeight || 0) / cellSize);
 
-    const xCellCount = avWidth < 50 ? avWidth : 50;
-    const yCellCount = avHeight < 50 ? avHeight : 50;
+    const xCellCount = avWidth < 100 ? avWidth : 100;
+    const yCellCount = avHeight < 100 ? avHeight : 100;
 
     dispatch(
       changeAvailableSize({
@@ -34,7 +41,7 @@ const App: FC = () => {
 
     dispatch(
       changeFieldSize({
-        xCellCount,
+        xCellCount: 200,
         yCellCount,
       })
     );
@@ -42,15 +49,19 @@ const App: FC = () => {
 
   useEffect(() => {
     if (!paused) {
-      const interval = setInterval(() => {
-        dispatch(newGenerationThunk());
-      }, baseTimer);
+      runGame(() => dispatch(newGenerationThunk()));
+      // const interval = setInterval(() => {
+      //   dispatch(newGenerationThunk());
+      //   // dispatch(newgen());
+      // }, baseTimer);
 
-      return () => {
-        clearInterval(interval);
-      };
+      // return () => {
+      //   clearInterval(interval);
+      // };
     }
   }, [paused]);
+
+  // console.log("render apptsx");
 
   return (
     <div
@@ -73,9 +84,18 @@ const App: FC = () => {
           },
 
           ".cell": {
-            position: "absolute",
             boxSizing: "border-box",
             cursor: "pointer",
+            width: "5px",
+            height: "5px",
+
+            '&[data-state="1"]': {
+              backgroundColor: "#21A179",
+            },
+
+            '&[data-state="2"]': {
+              backgroundColor: "#4FB477",
+            },
 
             ":hover": {
               backgroundColor: "#1c3144 !important",
